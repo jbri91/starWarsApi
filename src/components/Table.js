@@ -7,10 +7,10 @@ import React from 'react'
 function Table() {
     return (
         <div>
-        <h1>Table Component</h1>
+            <br />
         <table>
-        <thead>
-        <tr>
+        <thead >
+        <tr style={{fontWeight: 'bold', fontSize: '20px', color: 'white'}}>
         <th>Name</th>
         <th>Birth Date</th>  
         <th>Height</th>  
