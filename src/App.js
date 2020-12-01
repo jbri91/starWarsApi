@@ -14,7 +14,11 @@ function App() {
   return (
     <div className="App" style={ imageStyle } >
         <body >      
-          <h1>Star Wars API</h1>
+          <h1 style=
+          {{ 
+            fontSize: '60px', 
+            color: 'yellow'
+          }}>Star Wars API</h1>
       <UserInput />
       <Table />
       </body> 
