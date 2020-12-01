@@ -5,15 +5,19 @@ import star from './starWarsDeathStar.jpg'
 import './App.css';
 
 function App() {
+  const imageStyle = {
+    height: "100%", 
+    backgroundSize: 'cover', 
+    backgroundRepeat: 'no-repeat', 
+    backgroundImage:`url(${star})`
+  }
   return (
-    <div className="App" style={{ backgroundImage:`url(${star})` }} >
-      <header className="App-header" >
+    <div className="App" style={ imageStyle } >
         <body >      
           <h1>Star Wars API</h1>
       <UserInput />
       <Table />
-      </body>
-      </header> 
+      </body> 
     </div>
   );
 }
