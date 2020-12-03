@@ -2,8 +2,19 @@ import React from 'react'
 import Table from './components/Table'
 import UserInput from './components/UserInput'
 import './App.css';
+import axios from 'axios'
 
-function App() {
+class App extends React.Component {
+  componentDidMount() {
+    axios.get('https://swapi.dev/api/people/')
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+ render() {
   return (
     <div className="App">   
           <h1 style=
@@ -14,7 +25,7 @@ function App() {
       <UserInput />
       <Table />
     </div>
-  );
+  );}
 }
 
 export default App;

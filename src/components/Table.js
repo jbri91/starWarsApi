@@ -107,9 +107,9 @@ function Table() {
             <td>Tatooine</td>
             <td>Human</td>
             </tr>
-        </tbody>    
-            
-        </table>        
+        </tbody>   
+        </table>  
+           
         </div>
     )
 }
