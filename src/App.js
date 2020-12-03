@@ -5,16 +5,23 @@ import './App.css';
 import axios from 'axios'
 
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: ""
+    }
+  }
   componentDidMount() {
-    axios.get('https://swapi.dev/api/people/')
+    axios.get('https://swapi.dev/api/people/1')
     .then(response => {
-      console.log(response.data);
+      this.setState({ name: response.data.message})
     })
     .catch(error => {
       console.log(error);
     });
   }
  render() {
+   const { name } = this.state;
   return (
     <div className="App">   
           <h1 style=
@@ -22,6 +29,7 @@ class App extends React.Component {
             fontSize: '60px', 
             color: 'yellow'
           }}>Star Wars API</h1>
+          <h1>{ name }</h1>
       <UserInput />
       <Table />
     </div>
