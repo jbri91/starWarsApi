@@ -2,26 +2,35 @@ import React from 'react'
 import Table from './components/Table'
 import UserInput from './components/UserInput'
 import './App.css';
-import axios from 'axios'
+// import axios from 'axios'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: ""
+      name: " ",
+      birthDate: " ",
+      height: " ",
+      mass: " ",
+      homeWorld: " ",
+      species: " "
     }
   }
   componentDidMount() {
-    axios.get('https://swapi.dev/api/people/1')
-    .then(response => {
-      this.setState({ name: response.data.message})
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    fetch('https://swapi.dev/api/people/1')
+    .then(response => response.json())
+    .then(json => this.setState({
+      name: json.name,
+      birthDate: json.birth_year,
+      height: json.height,
+      mass: json.height,
+      homeWorld: json.homeworld,
+      species: json.species
+        
+    }))
+    .catch(error => {console.log(error);});
   }
  render() {
-   const { name } = this.state;
   return (
     <div className="App">   
           <h1 style=
@@ -29,9 +38,15 @@ class App extends React.Component {
             fontSize: '60px', 
             color: 'yellow'
           }}>Star Wars API</h1>
-          <h1>{ name }</h1>
       <UserInput />
-      <Table />
+      <Table
+      name={this.state.name}
+      birthDate={this.state.birthDate}
+      height={this.state.height}
+      mass={this.state.mass}
+      homeWorld={this.state.homeWorld}
+      species={this.state.species}
+      />
     </div>
   );}
 }
