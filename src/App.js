@@ -32,7 +32,7 @@ class App extends React.Component {
     .catch(error => {console.log(error);});
   }
  render() {
-   console.log(this.state)
+   console.log(this.state.species)
   return (
     <div className="App">   
           <h1 style=
@@ -47,7 +47,7 @@ class App extends React.Component {
       height={this.state.height}
       mass={this.state.mass}
       homeWorld={this.state.homeWorld}
-      species={this.state.species}
+      species={this.state.species == "" ? 'Human' : this.state.species}
       id={this.state.id}
       />
     </div>
