@@ -7,13 +7,15 @@ import './App.css';
 class App extends React.Component {
   constructor(props) {
     super(props)
+    let date = new Date
     this.state = {
       name: " ",
       birthDate: " ",
       height: " ",
       mass: " ",
       homeWorld: " ",
-      species: " "
+      species: " ",
+      id: Math.random(date.getTime() * 10)
     }
   }
   componentDidMount() {
@@ -26,11 +28,11 @@ class App extends React.Component {
       mass: json.height,
       homeWorld: json.homeworld,
       species: json.species
-        
     }))
     .catch(error => {console.log(error);});
   }
  render() {
+   console.log(this.state)
   return (
     <div className="App">   
           <h1 style=
@@ -46,6 +48,7 @@ class App extends React.Component {
       mass={this.state.mass}
       homeWorld={this.state.homeWorld}
       species={this.state.species}
+      id={this.state.id}
       />
     </div>
   );}
