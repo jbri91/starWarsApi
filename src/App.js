@@ -9,6 +9,7 @@ class App extends React.Component {
     super(props)
     let date = new Date
     this.state = {
+      loading: false,
       name: " ",
       birthDate: " ",
       height: " ",
@@ -19,20 +20,24 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
+    this.setState({
+      loading: true
+    })
     fetch('https://swapi.dev/api/people/1')
     .then(response => response.json())
-    .then(json => this.setState({
-      name: json.name,
-      birthDate: json.birth_year,
-      height: json.height,
-      mass: json.height,
-      homeWorld: json.homeworld,
-      species: json.species
+    .then(data => this.setState({
+      loading: false,
+      name: data.name,
+      birthDate: data.birth_year,
+      height: data.height,
+      mass: data.height,
+      homeWorld: data.homeworld,
+      species: data.species
     }))
     .catch(error => {console.log(error);});
   }
+
  render() {
-   console.log(this.state.species)
   return (
     <div className="App">   
           <h1 style=
@@ -41,6 +46,7 @@ class App extends React.Component {
             color: 'yellow'
           }}>Star Wars API</h1>
       <UserInput />
+      {this.state.loading ? <h1 style={{color: 'yellow'}}>Loading...</h1> : 
       <Table
       name={this.state.name}
       birthDate={this.state.birthDate}
@@ -49,7 +55,7 @@ class App extends React.Component {
       homeWorld={this.state.homeWorld}
       species={this.state.species == "" ? 'Human' : this.state.species}
       id={this.state.id}
-      />
+      />}
     </div>
   );}
 }
