@@ -2,11 +2,9 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-class StarWarsPagination extends React.Component {
-
-  render() {
+function StarWarsPagination(props) {
+console.log(props)
     return (
-      
         <nav aria-label="Page navigation example">
           <br />
         <ul className="pagination justify-content-center">
@@ -25,7 +23,6 @@ class StarWarsPagination extends React.Component {
         </ul>
       </nav>
     );
-  }
 }
 
 export default StarWarsPagination;

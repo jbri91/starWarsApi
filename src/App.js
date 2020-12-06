@@ -2,6 +2,7 @@ import React from 'react'
 import Table from './components/Table'
 import UserInput from './components/UserInput'
 import './App.css';
+import Pagination from 'react-js-pagination'
 import StarWarsPagination from './components/StarWarsPagination'
 
 
@@ -14,9 +15,15 @@ class App extends React.Component {
     super(props)
     
     this.state = {
+     activePage: 1,
      loading: false,
      character: []
   }
+}
+
+handlePageChange(pageNumber) {
+  console.log(`active page is ${pageNumber}`)
+  this.setState({activePage: pageNumber})
 }
 
   componentDidMount() {
@@ -39,8 +46,7 @@ class App extends React.Component {
   }
 
 
- render() {
-   console.log(this.state)
+ render() { 
   return (
     <div className="App">   
           <h1 style=
@@ -55,7 +61,12 @@ class App extends React.Component {
         planets={this.state.planets}
         species={this.state.species}
       />}
-      <StarWarsPagination />
+      <StarWarsPagination
+      activePage={this.state.activePage}
+      itemsCountPerPage={10}
+      totalItemsCount={82}
+      pageRangeDisplayed={10}
+      onChange={this.handlePageChange.bind(this)} />
     </div>
   );}
 }
