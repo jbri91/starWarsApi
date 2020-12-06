@@ -3,7 +3,7 @@ import Table from './components/Table'
 import UserInput from './components/UserInput'
 import './App.css';
 // import axios from 'axios'
-let date = new Date
+// let date = new Date
 
 class App extends React.Component {
   constructor(props) {
@@ -11,13 +11,7 @@ class App extends React.Component {
     
     this.state = {
       loading: false,
-      name: " ",
-      birthDate: " ",
-      height: " ",
-      mass: " ",
-      homeWorld: " ",
-      species: " ",
-      id: Math.random(date.getTime() * 10)
+     character: [],
     }
   }
   componentDidMount() {
@@ -32,13 +26,7 @@ class App extends React.Component {
   ])
     .then(([people, planet, species]) => this.setState({
       loading: false,
-      name: people.results[0].name,
-      birthDate: people.results[0].birth_year,
-      height: people.results[0].height,
-      mass: people.results[0].mass,
-      homeWorld: planet.results[0].name,
-      species: species.results[0].name,
-      id: Math.random(date.getTime() * 10)
+    character: [people,planet,species]
     }))
     .catch(error => {console.log(error);});
   }
@@ -55,13 +43,7 @@ class App extends React.Component {
       <UserInput />
       {this.state.loading ? <h1 style={{color: 'yellow'}}>Loading...</h1> : 
       <Table
-      name={this.state.name}
-      birthDate={this.state.birthDate}
-      height={this.state.height}
-      mass={this.state.mass}
-      homeWorld={this.state.homeWorld}
-      species={this.state.species == "" ? 'Human' : this.state.species}
-      id={this.state.id}
+     character={this.state.character}
       />}
     </div>
   );}
