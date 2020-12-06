@@ -2,6 +2,10 @@ import React from 'react'
 import Table from './components/Table'
 import UserInput from './components/UserInput'
 import './App.css';
+import StarWarsPagination from './components/StarWarsPagination'
+
+
+
 // import axios from 'axios'
 // let date = new Date
 
@@ -51,6 +55,7 @@ class App extends React.Component {
         planets={this.state.planets}
         species={this.state.species}
       />}
+      <StarWarsPagination />
     </div>
   );}
 }
