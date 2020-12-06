@@ -24,19 +24,19 @@ class App extends React.Component {
       loading: true
     })
     Promise.all([
-    fetch('https://swapi.dev/api/people/1').then(people => people.json()),
-    fetch('https://swapi.dev/api/planets/1').then(planets => planets.json()),
-    fetch('https://swapi.dev/api/species/1/').then(species => species.json())
+    fetch('https://swapi.dev/api/people/').then(people => people.json()),
+    fetch('https://swapi.dev/api/planets/').then(planets => planets.json()),
+    fetch('https://swapi.dev/api/species/').then(species => species.json())
   ])
     // .then(response => response.json())
     .then(([people, planet, species]) => this.setState({
       loading: false,
-      name: people.name,
-      birthDate: people.birth_year,
-      height: people.height,
-      mass: people.mass,
-      homeWorld: planet.name,
-      species: species.name
+      name: people.results[0].name,
+      birthDate: people.results[0].birth_year,
+      height: people.results[0].height,
+      mass: people.results[0].mass,
+      homeWorld: planet.results[0].name,
+      species: species.results[0].name
     }))
     .catch(error => {console.log(error);});
   }
