@@ -29,14 +29,14 @@ class App extends React.Component {
     fetch('https://swapi.dev/api/species/1/').then(species => species.json())
   ])
     // .then(response => response.json())
-    .then(([data1, data2, data3]) => this.setState({
+    .then(([people, planet, species]) => this.setState({
       loading: false,
-      name: data1.name,
-      birthDate: data1.birth_year,
-      height: data1.height,
-      mass: data1.mass,
-      homeWorld: data2.name,
-      species: data3.name
+      name: people.name,
+      birthDate: people.birth_year,
+      height: people.height,
+      mass: people.mass,
+      homeWorld: planet.name,
+      species: species.name
     }))
     .catch(error => {console.log(error);});
   }
