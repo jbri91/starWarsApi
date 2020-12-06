@@ -42,7 +42,7 @@ class App extends React.Component {
 
 
  render() {
-   console.log(this.state)
+   console.log(this.state.character)
   return (
     <div className="App">   
           <h1 style=
@@ -52,14 +52,8 @@ class App extends React.Component {
           }}>Star Wars API</h1>
       <UserInput />
       {this.state.loading ? <h1 style={{color: 'yellow'}}>Loading...</h1> : 
-      <Table
-      name={this.state.character.name}
-      birthDate={this.state.character.birthDate}
-      height={this.state.character.height}
-      mass={this.state.character.mass}
-      homeWorld={this.state.character.homeWorld}
-      species={this.state.character.species == "" ? 'Human' : this.state.character.species}
-      id={this.state.id}
+      <Table 
+        character={this.state.character}
       />}
     </div>
   );}
