@@ -3,23 +3,18 @@ import Table from './components/Table'
 import UserInput from './components/UserInput'
 import './App.css';
 // import axios from 'axios'
-let date = new Date
+// let date = new Date
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     
     this.state = {
-      loading: false,
-      name: " ",
-      birthDate: " ",
-      height: " ",
-      mass: " ",
-      homeWorld: " ",
-      species: " ",
-      id: Math.random(date.getTime() * 10)
-    }
+     loading: false,
+     character: []
   }
+}
+
   componentDidMount() {
     this.setState({
       loading: true
@@ -30,21 +25,18 @@ class App extends React.Component {
     fetch('https://swapi.dev/api/planets/').then(planets => planets.json()),
     fetch('https://swapi.dev/api/species/').then(species => species.json())
   ])
-    .then(([people, planet, species]) => this.setState({
-      loading: false,
-      name: people.results[0].name,
-      birthDate: people.results[0].birth_year,
-      height: people.results[0].height,
-      mass: people.results[0].mass,
-      homeWorld: planet.results[0].name,
-      species: species.results[0].name,
-      id: Math.random(date.getTime() * 10)
-    }))
+  .then(response => this.setState({ 
+    loading: false, 
+    character: [...response[0].results ], 
+    planets: [...response[1].results],
+    species: [...response[2].results]
+  }))
     .catch(error => {console.log(error);});
   }
 
 
  render() {
+   console.log(this.state)
   return (
     <div className="App">   
           <h1 style=
@@ -54,14 +46,10 @@ class App extends React.Component {
           }}>Star Wars API</h1>
       <UserInput />
       {this.state.loading ? <h1 style={{color: 'yellow'}}>Loading...</h1> : 
-      <Table
-      name={this.state.name}
-      birthDate={this.state.birthDate}
-      height={this.state.height}
-      mass={this.state.mass}
-      homeWorld={this.state.homeWorld}
-      species={this.state.species == "" ? 'Human' : this.state.species}
-      id={this.state.id}
+      <Table 
+        character={this.state.character}
+        planets={this.state.planets}
+        species={this.state.species}
       />}
     </div>
   );}
