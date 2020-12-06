@@ -23,16 +23,20 @@ class App extends React.Component {
     this.setState({
       loading: true
     })
-    fetch('https://swapi.dev/api/people/1')
-    .then(response => response.json())
-    .then(data => this.setState({
+    Promise.all([
+    fetch('https://swapi.dev/api/people/1').then(people => people.json()),
+    fetch('https://swapi.dev/api/planets/1').then(planets => planets.json()),
+    fetch('https://swapi.dev/api/species/1/').then(species => species.json())
+  ])
+    // .then(response => response.json())
+    .then(([data1, data2, data3]) => this.setState({
       loading: false,
-      name: data.name,
-      birthDate: data.birth_year,
-      height: data.height,
-      mass: data.height,
-      homeWorld: data.homeworld,
-      species: data.species
+      name: data1.name,
+      birthDate: data1.birth_year,
+      height: data1.height,
+      mass: data1.mass,
+      homeWorld: data2.name,
+      species: data3.name
     }))
     .catch(error => {console.log(error);});
   }
