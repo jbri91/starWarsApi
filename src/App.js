@@ -30,7 +30,6 @@ class App extends React.Component {
     fetch('https://swapi.dev/api/planets/').then(planets => planets.json()),
     fetch('https://swapi.dev/api/species/').then(species => species.json())
   ])
-    // .then(response => response.json())
     .then(([people, planet, species]) => this.setState({
       loading: false,
       name: people.results[0].name,
