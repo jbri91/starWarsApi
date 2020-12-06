@@ -5,16 +5,17 @@ import React from 'react'
 // Using swapi.dev API to pull in data
 
 function Table(props) {
+    console.log(props)
   const charRows = [ ];
-    for(let i=0; i < props.character.length; i++) {
+    for(let i=0; i < props.character.length && i < props.planets.length && props.species.length; i++) {
      charRows.push(
     <tr key={props.character[i].name}>
     <td>{props.character[i].name}</td>
     <td>{props.character[i].birth_year}</td>
     <td>{props.character[i].height}</td>
     <td>{props.character[i].mass}</td>
-    <td>{props.character[i].homeWorld}</td>
-    <td>{props.character[i].species}</td>
+    <td>{props.planets[i].name}</td>
+    <td>{props.species[i].name}</td>
     </tr>
     )}
 

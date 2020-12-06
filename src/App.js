@@ -27,13 +27,16 @@ class App extends React.Component {
   ])
   .then(response => this.setState({ 
     loading: false, 
-    character: [...response[0].results ] 
+    character: [...response[0].results ], 
+    planets: [...response[1].results],
+    species: [...response[2].results]
   }))
     .catch(error => {console.log(error);});
   }
 
 
  render() {
+   console.log(this.state)
   return (
     <div className="App">   
           <h1 style=
@@ -45,6 +48,8 @@ class App extends React.Component {
       {this.state.loading ? <h1 style={{color: 'yellow'}}>Loading...</h1> : 
       <Table 
         character={this.state.character}
+        planets={this.state.planets}
+        species={this.state.species}
       />}
     </div>
   );}
