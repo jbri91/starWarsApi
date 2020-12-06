@@ -3,11 +3,12 @@ import Table from './components/Table'
 import UserInput from './components/UserInput'
 import './App.css';
 // import axios from 'axios'
+let date = new Date
 
 class App extends React.Component {
   constructor(props) {
     super(props)
-    let date = new Date
+    
     this.state = {
       loading: false,
       name: " ",
@@ -23,6 +24,7 @@ class App extends React.Component {
     this.setState({
       loading: true
     })
+    
     Promise.all([
     fetch('https://swapi.dev/api/people/').then(people => people.json()),
     fetch('https://swapi.dev/api/planets/').then(planets => planets.json()),
@@ -36,7 +38,8 @@ class App extends React.Component {
       height: people.results[0].height,
       mass: people.results[0].mass,
       homeWorld: planet.results[0].name,
-      species: species.results[0].name
+      species: species.results[0].name,
+      id: Math.random(date.getTime() * 10)
     }))
     .catch(error => {console.log(error);});
   }
