@@ -5,9 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function StarWarsPagination(props) {
 console.log(props)
     return (
-        <nav aria-label="Page navigation example">
+        <nav  aria-label="Page navigation example">
           <br />
-        <ul className="pagination justify-content-center">
+        <ul onChange={props.handlePageChange} className="pagination justify-content-center">
           <li className="page-item"><a className="page-link" href="#">Previous</a></li>
           <li className="page-item"><a className="page-link" href="#">1</a></li>
           <li className="page-item"><a className="page-link" href="#">2</a></li>
