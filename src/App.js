@@ -2,7 +2,6 @@ import React from 'react'
 import Table from './components/Table'
 import UserInput from './components/UserInput'
 import './App.css';
-import Pagination from 'react-js-pagination'
 import StarWarsPagination from './components/StarWarsPagination'
 
 
@@ -19,31 +18,39 @@ class App extends React.Component {
      loading: false,
      character: []
   }
+
+  this.handleDataRequest = this.handleDataRequest.bind(this)
 }
 
 handlePageChange(pageNumber) {
-  console.log(`active page is ${pageNumber}`)
   this.setState({activePage: pageNumber})
 }
 
-  componentDidMount() {
-    this.setState({
-      loading: true
-    })
-    
-    Promise.all([
-    fetch('https://swapi.dev/api/people/').then(people => people.json()),
-    fetch('https://swapi.dev/api/planets/').then(planets => planets.json()),
-    fetch('https://swapi.dev/api/species/').then(species => species.json())
-  ])
-  .then(response => this.setState({ 
-    loading: false, 
-    character: [...response[0].results ], 
-    planets: [...response[1].results],
-    species: [...response[2].results]
-  }))
-    .catch(error => {console.log(error);});
-  }
+componentDidMount() {
+this.handleDataRequest();  
+}
+
+handleDataRequest() {
+  this.setState({
+    loading: true
+  })
+  
+  Promise.all([
+  fetch(`https://swapi.dev/api/people/?page=${this.state.activePage}`).then(people => people.json()),
+  fetch(`https://swapi.dev/api/planets/?page=${this.state.activePage}`).then(planets => planets.json()),
+  fetch(`https://swapi.dev/api/species/?page=${this.state.activePage}`).then(species => species.json())
+])
+.then(response => this.setState({ 
+  loading: false, 
+  character: [...response[0].results ], 
+  planets: [...response[1].results],
+  species: [...response[2].results]
+}))
+  .catch(error => {console.log(error);});
+
+}
+
+ 
 
 
  render() { 
