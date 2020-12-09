@@ -23,14 +23,12 @@ class App extends React.Component {
 }
 
 handlePageChange(pageNumber) {
-  console.log(`pageChanged ${this.activePage}`)
   this.setState({
     activePage: pageNumber
   })
 }
 
 componentDidMount() {
-this.handlePageChange(this.activePage);
 this.handleDataRequest();  
 }
 
