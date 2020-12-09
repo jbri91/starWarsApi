@@ -18,15 +18,19 @@ class App extends React.Component {
      loading: false,
      character: []
   }
-
+ this.handlePageChange = this.handlePageChange.bind(this)
   this.handleDataRequest = this.handleDataRequest.bind(this)
 }
 
 handlePageChange(pageNumber) {
-  this.setState({activePage: pageNumber})
+  console.log(`pageChanged ${this.activePage}`)
+  this.setState({
+    activePage: pageNumber
+  })
 }
 
 componentDidMount() {
+this.handlePageChange(this.activePage);
 this.handleDataRequest();  
 }
 
@@ -73,7 +77,7 @@ handleDataRequest() {
       itemsCountPerPage={10}
       totalItemsCount={82}
       pageRangeDisplayed={10}
-      onChange={this.handlePageChange.bind(this)} />
+      onChange={this.handlePageChange} />
     </div>
   );}
 }
