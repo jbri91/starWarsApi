@@ -62,7 +62,7 @@ handleDataRequest() {
 
 
  render() {
-
+console.log(this.state.planets)
   return (
     <div className="App">   
           <h1 style=
