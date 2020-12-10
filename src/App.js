@@ -50,7 +50,7 @@ handleDataRequest() {
 ])
 .then(response => this.setState({ 
   loading: false, 
-  character: [...response[0].results ], 
+  character: [...response[0].results], 
   planets: [...response[1].results],
   species: [...response[2].results]
 }))
@@ -61,7 +61,8 @@ handleDataRequest() {
  
 
 
- render() { 
+ render() {
+
   return (
     <div className="App">   
           <h1 style=
