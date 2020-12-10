@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function StarWarsPagination(props) {
-console.log(props.onChange)
     return (
         <nav  aria-label="Page navigation example">
           <br />
