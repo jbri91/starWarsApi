@@ -28,6 +28,12 @@ handlePageChange(pageNumber) {
   })
 }
 
+componentDidUpdate(prevProps, prevState) {
+ if(this.state.activePage !== prevState.activePage) {
+  this.handleDataRequest(); 
+ }
+}
+
 componentDidMount() {
 this.handleDataRequest();  
 }
@@ -75,7 +81,7 @@ handleDataRequest() {
       itemsCountPerPage={10}
       totalItemsCount={82}
       pageRangeDisplayed={10}
-      onChange={this.handlePageChange} />
+      handlePageChange={this.handlePageChange} />
     </div>
   );}
 }
