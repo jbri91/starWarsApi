@@ -36,37 +36,60 @@ class App extends React.Component {
     this.handleDataRequest();
   }
 
-  handleDataRequest() {
+
+
+  async handleDataRequest() {
     this.setState({
       loading: true,
-    });
+    })
 
-    Promise.all([
-      fetch(
-        `https://swapi.dev/api/people/?page=${this.state.activePage}`
-      ).then((people) => people.json()),
-      fetch(
-        `https://swapi.dev/api/planets/?page=${this.state.activePage}`
-      ).then((planets) => planets.json()),
-      fetch(
-        `https://swapi.dev/api/species/?page=${this.state.activePage}`
-      ).then((species) => species.json()),
-    ])
-      .then((response) =>
-        this.setState({
-          loading: false,
-          character: [...response[0].results],
-          planets: [...response[1].results],
-          species: [...response[2].results],
-        })
-      )
-      .catch((error) => {
-        console.log(error);
-      });
+    const characters = await fetch(`https://swapi.dev/api/people/?page=${this.state.activePage}`).then((people) => people.json()).then((character) =>  character.results);
+    
+    console.log(characters[1].species)
+
+    for(let i=0; i < characters[i].species.length; i++) {
+      if(characters[i].species.length > 0) {
+        const species = await fetch(characters[i].species.url).then((species) => species.json()).then((species) => species.results)
+        console.log(species)
+      }
+      
+    }
+   
+
   }
 
+
+
+   
+
+
+
+  //   Promise.all([
+  //     fetch(
+  //       `https://swapi.dev/api/people/?page=${this.state.activePage}`
+  //     ).then((people) => people.json()),
+  //     fetch(
+  //       `https://swapi.dev/api/planets/?page=${this.state.activePage}`
+  //     ).then((planets) => planets.json()),
+  //     fetch(
+  //       `https://swapi.dev/api/species/?page=${this.state.activePage}`
+  //     ).then((species) => species.json()),
+  //   ])
+  //     .then((response) =>
+  //       this.setState({
+  //         loading: false,
+  //         character: [...response[0].results],
+  //         planets: [...response[1].results],
+  //         species: [...response[2].results],
+  //       })
+  //     )
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
+
   render() {
-    console.log(this.state.planets);
+    console.log(this.state.characters);
     return (
       <div className="App">
         <h1
