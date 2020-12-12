@@ -23,6 +23,7 @@ class App extends React.Component {
 
   onChange = e =>{
   this.setState({ search : e.target.value })
+  
 }
 
   handlePageChange(pageNumber) {
@@ -50,6 +51,8 @@ class App extends React.Component {
     ).then(response => response.json())
     .then(character => character.results)
     .catch((error) => {console.error('Error:', error)})
+
+
 for(let i=0; i < searchCharacters.length; i++){
     if(searchCharacters.length > 0){
      searchCharacters[i].homeworld =  await fetch(searchCharacters[i].homeworld)
