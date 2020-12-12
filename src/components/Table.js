@@ -5,7 +5,6 @@ import React from "react";
 // Using swapi.dev API to pull in data
 
 function Table(props) {
- console.log(props)
   const charRows = [];
   for (
     let i = 0;

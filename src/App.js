@@ -1,6 +1,5 @@
 import React from "react";
 import Table from "./components/Table";
-import UserInput from "./components/UserInput";
 import "./App.css";
 import StarWarsPagination from "./components/StarWarsPagination";
 
@@ -14,11 +13,16 @@ class App extends React.Component {
     this.state = {
       activePage: 1,
       loading: false,
+      search: "",
       characters: [],
     };
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleDataRequest = this.handleDataRequest.bind(this);
   }
+
+  onChange = e =>{
+  this.setState({ search : e.target.value })
+}
 
   handlePageChange(pageNumber) {
     this.setState({
@@ -31,7 +35,7 @@ class App extends React.Component {
       this.handleDataRequest();
     }
   }
-
+  
   componentDidMount() {
     this.handleDataRequest();
   }
@@ -45,15 +49,20 @@ class App extends React.Component {
       `https://swapi.dev/api/people/?page=${this.state.activePage}`
     )
       .then((people) => people.json())
-      .then((character) => character.results)
+     .then((character) => character.results)
       .catch((error) => {
         console.error("Error:", error);
       });
 
+
     for (let i = 0; i < characters.length; i++) {
-      characters[i].homeworld = await fetch(characters[i].homeworld).then((response) => response.json()).then((homeworld) => homeworld.name);
+     characters[i].homeworld = await fetch(characters[i].homeworld)
+        .then((response) => response.json())
+        .then((homeworld) => homeworld.name);
       if (characters[i].species.length > 0) {
-       characters[i].species = await fetch(characters[i].species).then((response) => response.json()).then((species) => species.name);
+        characters[i].species = await fetch(characters[i].species)
+          .then((response) => response.json())
+          .then((species) => species.name);
       } else {
         characters[i].species = "Human";
       }
@@ -62,9 +71,18 @@ class App extends React.Component {
         characters: characters,
       });
     }
+    
+    const { search } = this.state;
+    for(let i=0; i < characters.length; i++)
+    if(search != "" && characters[i].name.toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
+      return null
+    }
+   
+  
   }
 
   render() {
+    
     return (
       <div className="App">
         <h1
@@ -75,7 +93,13 @@ class App extends React.Component {
         >
           Star Wars API
         </h1>
-        <UserInput />
+
+        <input 
+        onChange={this.onChange}
+        size="50"
+        placeholder="Who do you seek?"
+        name="userInput"
+       />
         {this.state.loading ? (
           <h1 style={{ color: "yellow" }}>Loading...</h1>
         ) : (
