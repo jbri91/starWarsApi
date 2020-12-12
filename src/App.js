@@ -14,7 +14,7 @@ class App extends React.Component {
     this.state = {
       activePage: 1,
       loading: false,
-      character: [],
+      characters: [],
     };
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleDataRequest = this.handleDataRequest.bind(this);
@@ -45,51 +45,20 @@ class App extends React.Component {
 
     const characters = await fetch(`https://swapi.dev/api/people/?page=${this.state.activePage}`).then((people) => people.json()).then((character) =>  character.results);
     
-    console.log(characters[1].species)
-
-    for(let i=0; i < characters[i].species.length; i++) {
-      if(characters[i].species.length > 0) {
-        const species = await fetch(characters[i].species.url).then((species) => species.json()).then((species) => species.results)
-        console.log(species)
-      }
-      
-    }
-   
-
-  }
-
-
-
-   
-
-
-
-  //   Promise.all([
-  //     fetch(
-  //       `https://swapi.dev/api/people/?page=${this.state.activePage}`
-  //     ).then((people) => people.json()),
-  //     fetch(
-  //       `https://swapi.dev/api/planets/?page=${this.state.activePage}`
-  //     ).then((planets) => planets.json()),
-  //     fetch(
-  //       `https://swapi.dev/api/species/?page=${this.state.activePage}`
-  //     ).then((species) => species.json()),
-  //   ])
-  //     .then((response) =>
-  //       this.setState({
-  //         loading: false,
-  //         character: [...response[0].results],
-  //         planets: [...response[1].results],
-  //         species: [...response[2].results],
-  //       })
-  //     )
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
+    for(let i=0; i < characters.length; i++) { 
+       await fetch(characters[i].homeworld).then(response => response.json())
+       if(characters[i].species.length > 0) {
+      await fetch(characters[i].species).then(response => response.json()) 
+       } else {
+         characters[i].species = 'Human'
+       }
+      this.setState({
+        loading: false,
+        characters: characters
+      })
+  }}
 
   render() {
-    console.log(this.state.characters);
     return (
       <div className="App">
         <h1
@@ -105,9 +74,7 @@ class App extends React.Component {
           <h1 style={{ color: "yellow" }}>Loading...</h1>
         ) : (
           <Table
-            character={this.state.character}
-            planets={this.state.planets}
-            species={this.state.species}
+            characters={this.state.characters}
           />
         )}
         <StarWarsPagination
