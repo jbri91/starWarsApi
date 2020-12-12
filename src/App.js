@@ -36,27 +36,32 @@ class App extends React.Component {
     this.handleDataRequest();
   }
 
-
-
   async handleDataRequest() {
     this.setState({
       loading: true,
-    })
+    });
 
-    const characters = await fetch(`https://swapi.dev/api/people/?page=${this.state.activePage}`).then((people) => people.json()).then((character) =>  character.results);
-    
-    for(let i=0; i < characters.length; i++) { 
-       await fetch(characters[i].homeworld).then(response => response.json())
-       if(characters[i].species.length > 0) {
-      await fetch(characters[i].species).then(response => response.json()) 
-       } else {
-         characters[i].species = 'Human'
-       }
+    const characters = await fetch(
+      `https://swapi.dev/api/people/?page=${this.state.activePage}`
+    )
+      .then((people) => people.json())
+      .then((character) => character.results).catch((error) => {
+        console.error('Error:', error);
+      });
+
+    for (let i = 0; i < characters.length; i++) {
+      await fetch(characters[i].homeworld).then((response) => response.json());
+      if (characters[i].species.length > 0) {
+        await fetch(characters[i].species).then((response) => response.json());
+      } else {
+        characters[i].species = "Human";
+      }
       this.setState({
         loading: false,
-        characters: characters
-      })
-  }}
+        characters: characters,
+      });
+    }
+  }
 
   render() {
     return (
@@ -73,9 +78,7 @@ class App extends React.Component {
         {this.state.loading ? (
           <h1 style={{ color: "yellow" }}>Loading...</h1>
         ) : (
-          <Table
-            characters={this.state.characters}
-          />
+          <Table characters={this.state.characters} />
         )}
         <StarWarsPagination
           activePage={this.state.activePage}
