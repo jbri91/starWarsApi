@@ -51,9 +51,9 @@ class App extends React.Component {
       });
 
     for (let i = 0; i < characters.length; i++) {
-      await fetch(characters[i].homeworld).then((response) => response.json()).then((homeworld) => homeworld.name);
+      characters[i].homeworld = await fetch(characters[i].homeworld).then((response) => response.json()).then((homeworld) => homeworld.name);
       if (characters[i].species.length > 0) {
-        await fetch(characters[i].species).then((response) => response.json()).then((species) => species.name);
+       characters[i].species = await fetch(characters[i].species).then((response) => response.json()).then((species) => species.name);
       } else {
         characters[i].species = "Human";
       }
@@ -65,7 +65,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.characters)
     return (
       <div className="App">
         <h1
