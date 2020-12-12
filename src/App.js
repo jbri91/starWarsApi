@@ -18,10 +18,12 @@ class App extends React.Component {
     };
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleDataRequest = this.handleDataRequest.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   onChange = e =>{
   this.setState({ search : e.target.value })
+  
 }
 
   handlePageChange(pageNumber) {
@@ -39,6 +41,39 @@ class App extends React.Component {
   componentDidMount() {
     this.handleDataRequest();
   }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+
+
+    const searchCharacters = await fetch(
+      `https://swapi.dev/api/people/?search=${this.state.search}`
+    ).then(response => response.json())
+    .then(character => character.results)
+    .catch((error) => {console.error('Error:', error)})
+
+
+for(let i=0; i < searchCharacters.length; i++){
+    if(searchCharacters.length > 0){
+     searchCharacters[i].homeworld =  await fetch(searchCharacters[i].homeworld)
+      .then(response => response.json())
+      .then(homeworld => homeworld.name)
+      .catch((error) => {console.error('Error:', error)})
+    } 
+      if(searchCharacters[i].species.length > 0  ){
+       searchCharacters[i].species = await fetch(searchCharacters[i].species)
+        .then(response => response.json())
+        .then(species => species.name)
+        .catch((error) => {console.error('Error:', error)})
+      } else {
+        searchCharacters[i].species = 'Human'
+      }}
+      this.setState({
+        loading: false,
+        characters: searchCharacters
+      })
+}
+  
 
   async handleDataRequest() {
     this.setState({
@@ -65,24 +100,16 @@ class App extends React.Component {
           .then((species) => species.name);
       } else {
         characters[i].species = "Human";
-      }
-      this.setState({
-        loading: false,
-        characters: characters,
-      });
+      } 
     }
-    
-    const { search } = this.state;
-    for(let i=0; i < characters.length; i++)
-    if(search != "" && characters[i].name.toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
-      return null
-    }
-   
-  
+    this.setState({
+      loading: false,
+      characters: characters,
+    });
   }
 
   render() {
-    
+    console.log(this.state.search)
     return (
       <div className="App">
         <h1
@@ -93,18 +120,21 @@ class App extends React.Component {
         >
           Star Wars API
         </h1>
-
+        <form onSubmit={this.handleSubmit}>
         <input 
         onChange={this.onChange}
         size="50"
         placeholder="Who do you seek?"
         name="userInput"
        />
+       </form>
+       <br />
         {this.state.loading ? (
           <h1 style={{ color: "yellow" }}>Loading...</h1>
         ) : (
           <Table characters={this.state.characters} />
         )}
+        <br />
         <StarWarsPagination
           activePage={this.state.activePage}
           itemsCountPerPage={10}
