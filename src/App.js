@@ -1,58 +1,120 @@
-import React from 'react'
-import Table from './components/Table'
-import UserInput from './components/UserInput'
-import './App.css';
+import React from "react";
+import Table from "./components/Table";
+import "./App.css";
+import StarWarsPagination from "./components/StarWarsPagination";
+
 // import axios from 'axios'
 // let date = new Date
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
-    
+    super(props);
+
     this.state = {
-     loading: false,
-     character: []
+      activePage: 1,
+      loading: false,
+      search: "",
+      characters: [],
+    };
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleDataRequest = this.handleDataRequest.bind(this);
   }
+
+  onChange = e =>{
+  this.setState({ search : e.target.value })
 }
 
-  componentDidMount() {
+  handlePageChange(pageNumber) {
     this.setState({
-      loading: true
-    })
-    
-    Promise.all([
-    fetch('https://swapi.dev/api/people/').then(people => people.json()),
-    fetch('https://swapi.dev/api/planets/').then(planets => planets.json()),
-    fetch('https://swapi.dev/api/species/').then(species => species.json())
-  ])
-  .then(response => this.setState({ 
-    loading: false, 
-    character: [...response[0].results ], 
-    planets: [...response[1].results],
-    species: [...response[2].results]
-  }))
-    .catch(error => {console.log(error);});
+      activePage: pageNumber,
+    });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.activePage !== prevState.activePage) {
+      this.handleDataRequest();
+    }
+  }
+  
+  componentDidMount() {
+    this.handleDataRequest();
+  }
 
- render() {
-   console.log(this.state)
-  return (
-    <div className="App">   
-          <h1 style=
-          {{ 
-            fontSize: '60px', 
-            color: 'yellow'
-          }}>Star Wars API</h1>
-      <UserInput />
-      {this.state.loading ? <h1 style={{color: 'yellow'}}>Loading...</h1> : 
-      <Table 
-        character={this.state.character}
-        planets={this.state.planets}
-        species={this.state.species}
-      />}
-    </div>
-  );}
+  async handleDataRequest() {
+    this.setState({
+      loading: true,
+    });
+
+    const characters = await fetch(
+      `https://swapi.dev/api/people/?page=${this.state.activePage}`
+    )
+      .then((people) => people.json())
+     .then((character) => character.results)
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
+
+    for (let i = 0; i < characters.length; i++) {
+     characters[i].homeworld = await fetch(characters[i].homeworld)
+        .then((response) => response.json())
+        .then((homeworld) => homeworld.name);
+      if (characters[i].species.length > 0) {
+        characters[i].species = await fetch(characters[i].species)
+          .then((response) => response.json())
+          .then((species) => species.name);
+      } else {
+        characters[i].species = "Human";
+      }
+      this.setState({
+        loading: false,
+        characters: characters,
+      });
+    }
+    
+    const { search } = this.state;
+    for(let i=0; i < characters.length; i++)
+    if(search != "" && characters[i].name.toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
+      return null
+    }
+   
+  
+  }
+
+  render() {
+    
+    return (
+      <div className="App">
+        <h1
+          style={{
+            fontSize: "60px",
+            color: "yellow",
+          }}
+        >
+          Star Wars API
+        </h1>
+
+        <input 
+        onChange={this.onChange}
+        size="50"
+        placeholder="Who do you seek?"
+        name="userInput"
+       />
+        {this.state.loading ? (
+          <h1 style={{ color: "yellow" }}>Loading...</h1>
+        ) : (
+          <Table characters={this.state.characters} />
+        )}
+        <StarWarsPagination
+          activePage={this.state.activePage}
+          itemsCountPerPage={10}
+          totalItemsCount={82}
+          pageRangeDisplayed={10}
+          handlePageChange={this.handlePageChange}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
