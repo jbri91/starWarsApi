@@ -43,26 +43,28 @@ class App extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
+
+
     const searchCharacters = await fetch(
       `https://swapi.dev/api/people/?search=${this.state.search}`
     ).then(response => response.json())
     .then(character => character.results)
     .catch((error) => {console.error('Error:', error)})
-      
+for(let i=0; i < searchCharacters.length; i++){
     if(searchCharacters.length > 0){
-     searchCharacters[0].homeworld =  await fetch(searchCharacters[0].homeworld)
+     searchCharacters[i].homeworld =  await fetch(searchCharacters[i].homeworld)
       .then(response => response.json())
       .then(homeworld => homeworld.name)
       .catch((error) => {console.error('Error:', error)})
     } 
-      if(searchCharacters[0].species.length > 0  ){
-       searchCharacters[0].species = await fetch(searchCharacters[0].species)
+      if(searchCharacters[i].species.length > 0  ){
+       searchCharacters[i].species = await fetch(searchCharacters[i].species)
         .then(response => response.json())
         .then(species => species.name)
         .catch((error) => {console.error('Error:', error)})
       } else {
-        searchCharacters[0].species = 'Human'
-      }
+        searchCharacters[i].species = 'Human'
+      }}
       this.setState({
         loading: false,
         characters: searchCharacters
