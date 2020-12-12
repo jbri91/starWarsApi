@@ -128,11 +128,13 @@ for(let i=0; i < searchCharacters.length; i++){
         name="userInput"
        />
        </form>
+       <br />
         {this.state.loading ? (
           <h1 style={{ color: "yellow" }}>Loading...</h1>
         ) : (
           <Table characters={this.state.characters} />
         )}
+        <br />
         <StarWarsPagination
           activePage={this.state.activePage}
           itemsCountPerPage={10}
