@@ -18,6 +18,7 @@ class App extends React.Component {
     };
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleDataRequest = this.handleDataRequest.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   onChange = e =>{
@@ -39,6 +40,35 @@ class App extends React.Component {
   componentDidMount() {
     this.handleDataRequest();
   }
+
+  async handleSubmit(e) {
+    e.preventDefault();
+    const searchCharacters = await fetch(
+      `https://swapi.dev/api/people/?search=${this.state.search}`
+    ).then(response => response.json())
+    .then(character => character.results)
+    .catch((error) => {console.error('Error:', error)})
+      
+    if(searchCharacters.length > 0){
+     searchCharacters[0].homeworld =  await fetch(searchCharacters[0].homeworld)
+      .then(response => response.json())
+      .then(homeworld => homeworld.name)
+      .catch((error) => {console.error('Error:', error)})
+    } 
+      if(searchCharacters[0].species.length > 0  ){
+       searchCharacters[0].species = await fetch(searchCharacters[0].species)
+        .then(response => response.json())
+        .then(species => species.name)
+        .catch((error) => {console.error('Error:', error)})
+      } else {
+        searchCharacters[0].species = 'Human'
+      }
+      this.setState({
+        loading: false,
+        characters: searchCharacters
+      })
+}
+  
 
   async handleDataRequest() {
     this.setState({
@@ -71,13 +101,6 @@ class App extends React.Component {
         characters: characters,
       });
     }
-    
-    const { search } = this.state;
-    for(let i=0; i < characters.length; i++)
-    if(search != "" && characters[i].name.toLowerCase().indexOf( search.toLowerCase() ) === -1 ){
-      return null
-    }
-   
   
   }
 
@@ -93,13 +116,14 @@ class App extends React.Component {
         >
           Star Wars API
         </h1>
-
+        <form onSubmit={this.handleSubmit}>
         <input 
         onChange={this.onChange}
         size="50"
         placeholder="Who do you seek?"
         name="userInput"
        />
+       </form>
         {this.state.loading ? (
           <h1 style={{ color: "yellow" }}>Loading...</h1>
         ) : (
