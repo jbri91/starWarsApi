@@ -100,13 +100,12 @@ for(let i=0; i < searchCharacters.length; i++){
           .then((species) => species.name);
       } else {
         characters[i].species = "Human";
-      }
-      this.setState({
-        loading: false,
-        characters: characters,
-      });
+      } 
     }
-  
+    this.setState({
+      loading: false,
+      characters: characters,
+    });
   }
 
   render() {
