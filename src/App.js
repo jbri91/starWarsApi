@@ -90,11 +90,11 @@ for(let i=0; i < searchCharacters.length; i++){
 
 
     for (let i = 0; i < characters.length; i++) {
-     characters[i].homeworld = await fetch('https://swapi.dev/api/planets/1/')
+     characters[i].homeworld = await fetch(`https://swapi.dev/api/planets/${i}/`)
         .then((response) => response.json())
         .then((homeworld) => homeworld.name);
       if (characters[i].species.length > 0) {
-        characters[i].species = await fetch(characters[i].species)
+        characters[i].species = await fetch(`https://swapi.dev/api/species/${i}/`)
           .then((response) => response.json())
           .then((species) => species.name);
       } else {
