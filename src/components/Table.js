@@ -1,9 +1,5 @@
 import React from "react";
 
-// limit table to 10 characters at a time
-// Should automatically populate when opening the home page
-// Using swapi.dev API to pull in data
-
 function Table(props) {
   const charRows = [];
   for (

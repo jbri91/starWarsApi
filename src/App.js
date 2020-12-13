@@ -2,9 +2,8 @@ import React from "react";
 import Table from "./components/Table";
 import "./App.css";
 import StarWarsPagination from "./components/StarWarsPagination";
+import UserInput from './components/UserInput'
 
-// import axios from 'axios'
-// let date = new Date
 
 class App extends React.Component {
   constructor(props) {
@@ -70,7 +69,7 @@ for(let i=0; i < searchCharacters.length; i++){
       }}
       this.setState({
         loading: false,
-        characters: searchCharacters
+        characters: searchCharacters,
       })
 }
   
@@ -109,7 +108,6 @@ for(let i=0; i < searchCharacters.length; i++){
   }
 
   render() {
-    console.log(this.state.search)
     return (
       <div className="App">
         <h1
@@ -121,11 +119,11 @@ for(let i=0; i < searchCharacters.length; i++){
           Star Wars API
         </h1>
         <form onSubmit={this.handleSubmit}>
-        <input 
-        onChange={this.onChange}
-        size="50"
-        placeholder="Who do you seek?"
-        name="userInput"
+      <UserInput
+       onChange={this.onChange}
+       size="50"
+       placeholder="Who do you seek?"
+       name="userInput" 
        />
        </form>
        <br />
