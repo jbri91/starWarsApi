@@ -92,11 +92,17 @@ for(let i=0; i < searchCharacters.length; i++){
     for (let i = 0; i < characters.length; i++) {
      characters[i].homeworld = await fetch(characters[i].homeworld.replace('http', 'https'))
         .then((response) => response.json())
-        .then((homeworld) => homeworld.name);
+        .then((homeworld) => homeworld.name)
+        .catch((error) => {
+          console.error('Error:', error)
+      });;
       if (characters[i].species.length > 0) {
         characters[i].species = await fetch(characters[i].species.replace('http', 'https'))
           .then((response) => response.json())
-          .then((species) => species.name);
+          .then((species) => species.name)
+          .catch((error) => {
+            console.error('Error:', error)
+        });
       } else {
         characters[i].species = "Human";
       } 
