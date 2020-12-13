@@ -60,7 +60,7 @@ for(let i=0; i < searchCharacters.length; i++){
       .catch((error) => {console.error('Error:', error)})
     } 
       if(searchCharacters[i].species.length > 0){
-       searchCharacters[i].species = await fetch(searchCharacters[i].species.replace('http', 'https'))
+       searchCharacters[i].species = await fetch(searchCharacters[i].species.toString().replace('http', 'https'))
         .then(response => response.json())
         .then(species => species.name)
         .catch((error) => {console.error('Error:', error)})
@@ -96,8 +96,8 @@ for(let i=0; i < searchCharacters.length; i++){
         .catch((error) => {
           console.error('Error:', error)
       });;
-      if (characters[i].species.length > 0) {
-        characters[i].species = await fetch(characters[i].species.replace('http', 'https'))
+      if (characters[i].species.length > 0 ) {
+        characters[i].species = await fetch(characters[i].species.toString().replace('http', 'https'))
           .then((response) => response.json())
           .then((species) => species.name)
           .catch((error) => {
