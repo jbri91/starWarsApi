@@ -54,7 +54,7 @@ class App extends React.Component {
 
 for(let i=0; i < searchCharacters.length; i++){
     if(searchCharacters.length > 0){
-     searchCharacters[i].homeworld =  await fetch([searchCharacters[i].homeworld.slice(0, 4), 's', searchCharacters[i].homeworld.slice(4)].join(''))
+     searchCharacters[i].homeworld =  await fetch(searchCharacters[i].homeworld)
       .then(response => response.json())
       .then(homeworld => homeworld.name)
       .catch((error) => {console.error('Error:', error)})
@@ -90,7 +90,7 @@ for(let i=0; i < searchCharacters.length; i++){
 
 
     for (let i = 0; i < characters.length; i++) {
-     characters[i].homeworld = await fetch([characters[i].homeworld.slice(0, 4), 's', characters[i].homeworld.slice(4)].join(''))
+     characters[i].homeworld = await fetch(characters[i].homeworld)
         .then((response) => response.json())
         .then((homeworld) => homeworld.name);
       if (characters[i].species.length > 0) {
