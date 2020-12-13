@@ -90,7 +90,7 @@ for(let i=0; i < searchCharacters.length; i++){
 
 
     for (let i = 0; i < characters.length; i++) {
-     characters[i].homeworld = await fetch('http://swapi.dev/api/planets/1/')
+     characters[i].homeworld = await fetch('https://swapi.dev/api/planets/1/')
         .then((response) => response.json())
         .then((homeworld) => homeworld.name);
       if (characters[i].species.length > 0) {
